@@ -15,7 +15,9 @@ public class UserDtoLombok {
 
     private  String lastName;
 
-    private  String mail;
+    private  String email;
 
     private String password;
 }
+
+

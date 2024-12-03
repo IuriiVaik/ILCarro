@@ -4,29 +4,26 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 
-public class HomePage extends BasePage {
-    public HomePage(WebDriver driver) {
+public class SearchPage extends BasePage {
+    public SearchPage(WebDriver driver) {
         setDriver(driver);
-        driver.get("https://ilcarro.web.app/registration?url=%2Fsearch");
-        PageFactory.initElements(driver, this);
+        driver.get("https://ilcarro.web.app/search");
+        PageFactory.initElements(new AjaxElementLocatorFactory(driver, 10), this);
     }
 
-    @FindBy(xpath = "//a[text()='LOGIN']")
+    @FindBy(xpath = "//a[contains(@class,'navigation-link') and contains(@href,'/login')]")
     WebElement btnLogin;
+   // @FindBy(xpath = "//a[text()=' Sign up ']")
+    WebElement btnSignUp;
 
-    public void clickBtnLoginHeader() {
+    public void clickBtnLogin(){
         btnLogin.click();
-        pause(5);
+    }
+      public void clickBtnSignUp(){
+        btnSignUp.click();
     }
 
-    // Реализация pause в HomePage
-    public void pause(int seconds) {
-        try {
-            Thread.sleep(seconds * 1000L);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new RuntimeException("Pause was interrupted", e);
-        }
-    }
+
 }
