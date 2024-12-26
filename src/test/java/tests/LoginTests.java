@@ -3,41 +3,53 @@ package tests;
 import dto.UserDtoLombok;
 import manager.ApplicationManager;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 import pages.SearchPage;
 
-import java.util.Random;
-
 public class LoginTests extends ApplicationManager {
 
-    @Test
-    public void loginPositiveTest() {
-        int i = new Random().nextInt(1000) + 1000;
-        UserDtoLombok user = UserDtoLombok.builder()
-                .email(i + "bob_mail@mail.com")
-                .password("Pass123!")
-                .build();
+    LoginPage loginPage;
 
+    @BeforeMethod
+    public void goToLoginPage(){
         new SearchPage(getDriver()).clickBtnLogin();
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.typeLoginForm(user);
-        loginPage.clickBtnYalla();
-
     }
 
     @Test
-    public void loginNegativeTest() {
+    public void loginPositiveTest(){
         UserDtoLombok user = UserDtoLombok.builder()
-                .email("invalid_email@mail.com")
-                .password("WrongPass!")
+                .email("alexmed123@gmail.com")
+                .password("Qwerty123!")
                 .build();
-
-        new SearchPage(getDriver()).clickBtnLogin();
-        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage = new LoginPage(getDriver());
         loginPage.typeLoginForm(user);
         loginPage.clickBtnYalla();
+        Assert.assertTrue(loginPage.isPopUpLoginMessagePresent("Logged in success"));
+    }
 
+    @Test
+    public void loginNegativeTest_wrongEmail(){
+        UserDtoLombok user = UserDtoLombok.builder()
+                .email("alexmed123gmail.com")
+                .password("Qwerty123!")
+                .build();
+        loginPage = new LoginPage(getDriver());
+        loginPage.typeLoginForm(user);
+        loginPage.clickBtnYalla();
+        Assert.assertTrue(loginPage.validateErrorMessage("It'snot look like email"));
+    }
 
+    @Test
+    public void loginNegativeTest_emptyPassword(){
+        UserDtoLombok user = UserDtoLombok.builder()
+                .email("alexmed123@gmail.com")
+                .password("")
+                .build();
+        loginPage = new LoginPage(getDriver());
+        loginPage.typeLoginForm(user);
+        loginPage.clickBtnYalla();
+        Assert.assertTrue(loginPage.validateErrorMessage("Password is required"));
     }
 }
