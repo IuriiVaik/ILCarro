@@ -4,9 +4,13 @@ import dto.UserDtoLombok;
 import manager.ApplicationManager;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 import pages.SearchPage;
+import utils.TestNGListener;
+
+@Listeners(TestNGListener.class)
 
 public class LoginTests extends ApplicationManager {
 
@@ -20,7 +24,7 @@ public class LoginTests extends ApplicationManager {
     @Test
     public void loginPositiveTest(){
         UserDtoLombok user = UserDtoLombok.builder()
-                .email("alexmed123@gmail.com")
+                .username("alexmed123@gmail.com")
                 .password("Qwerty123!")
                 .build();
         loginPage = new LoginPage(getDriver());
@@ -32,7 +36,7 @@ public class LoginTests extends ApplicationManager {
     @Test
     public void loginNegativeTest_wrongEmail(){
         UserDtoLombok user = UserDtoLombok.builder()
-                .email("alexmed123gmail.com")
+                .username("alexmed123gmail.com")
                 .password("Qwerty123!")
                 .build();
         loginPage = new LoginPage(getDriver());
@@ -44,7 +48,7 @@ public class LoginTests extends ApplicationManager {
     @Test
     public void loginNegativeTest_emptyPassword(){
         UserDtoLombok user = UserDtoLombok.builder()
-                .email("alexmed123@gmail.com")
+                .username("alexmed123@gmail.com")
                 .password("")
                 .build();
         loginPage = new LoginPage(getDriver());
