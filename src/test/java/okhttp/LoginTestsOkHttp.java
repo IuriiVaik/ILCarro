@@ -14,7 +14,7 @@ public class LoginTestsOkHttp implements BaseApi {
 
     @Test
     public void loginPositiveTest() {
-        // Предположим, что данный пользователь уже зарегистрирован в системе
+
         UserDtoLombok user = UserDtoLombok.builder()
                 .username("test_user@mail.com")
                 .password("Pass123!")
